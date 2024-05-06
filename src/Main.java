@@ -48,6 +48,7 @@ public class Main {
             System.out.println(response.body());
 
             if (escolha == 1) {
+                System.out.println("Ola, mundo");
 
             } else if (escolha == 2) {
 
