@@ -1,4 +1,8 @@
 
+import com.google.gson.FieldNamingPolicy;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -11,10 +15,11 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) throws IOException, InterruptedException {
         Scanner ler = new Scanner(System.in);
-        int escolha = 1;
-        int valorAConverter = 0;
+        int escolha = 0;
+        String valorAConverter = "";
 
-        while (escolha > 0 && escolha <= 6) {
+
+        while (escolha <= 0 && escolha <= 6) {
             System.out.println("""
                     *********************************************************
                     Seja bem vindo/a ao corversor de moedas.
@@ -35,35 +40,144 @@ public class Main {
             escolha = ler.nextInt();
 
             System.out.println("Digite o valor que deja corverter:");
-            valorAConverter = ler.nextInt();
+
+            valorAConverter = ler.next();
 
 
-            HttpClient client = HttpClient.newHttpClient();
-            HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create("https://v6.exchangerate-api.com/v6/96ed609c3944d773fdab5f61/latest/USD"))
-                    .build();
-
-            HttpResponse<String> response = client
-                    .send(request, HttpResponse.BodyHandlers.ofString());
-            System.out.println(response.body());
 
             if (escolha == 1) {
-                System.out.println("Ola, mundo");
+
+                HttpClient client = HttpClient.newHttpClient();
+                HttpRequest request = HttpRequest.newBuilder()
+                        .uri(URI.create("https://v6.exchangerate-api.com/v6/96ed609c3944d773fdab5f61/pair/USD/ARS/" + valorAConverter))
+                        .build();
+
+                HttpResponse<String> response = client
+                        .send(request, HttpResponse.BodyHandlers.ofString());
+
+                String json = response.body();
+
+                Gson gson = new Gson();
+
+                MoedasRecord moedasRecord = gson.fromJson(json, MoedasRecord.class);
+
+
+                Moeda moeda = new Moeda(moedasRecord);
+                moeda.setValorAconverter(Double.parseDouble(valorAConverter));
+
+                System.out.println(moeda);
 
             } else if (escolha == 2) {
+                HttpClient client = HttpClient.newHttpClient();
+                HttpRequest request = HttpRequest.newBuilder()
+                        .uri(URI.create("https://v6.exchangerate-api.com/v6/96ed609c3944d773fdab5f61/pair/ARS/USD/" + valorAConverter))
+                        .build();
+
+                HttpResponse<String> response = client
+                        .send(request, HttpResponse.BodyHandlers.ofString());
+
+                String json = response.body();
+
+
+
+                Gson gson = new Gson();
+
+                MoedasRecord moedasRecord = gson.fromJson(json, MoedasRecord.class);
+
+
+                Moeda moeda = new Moeda(moedasRecord);
+                moeda.setValorAconverter(Double.parseDouble(valorAConverter));
+
+                System.out.println(moeda);
+
 
             } else if (escolha == 3) {
+                HttpClient client = HttpClient.newHttpClient();
+                HttpRequest request = HttpRequest.newBuilder()
+                        .uri(URI.create("https://v6.exchangerate-api.com/v6/96ed609c3944d773fdab5f61/pair/USD/BRL/" + valorAConverter))
+                        .build();
+
+                HttpResponse<String> response = client
+                        .send(request, HttpResponse.BodyHandlers.ofString());
+
+                String json = response.body();
+                Gson gson = new Gson();
+
+                MoedasRecord moedasRecord = gson.fromJson(json, MoedasRecord.class);
+
+
+                Moeda moeda = new Moeda(moedasRecord);
+                moeda.setValorAconverter(Double.parseDouble(valorAConverter));
+
+                System.out.println(moeda);
+
 
             } else if (escolha == 4) {
+                HttpClient client = HttpClient.newHttpClient();
+                HttpRequest request = HttpRequest.newBuilder()
+                        .uri(URI.create("https://v6.exchangerate-api.com/v6/96ed609c3944d773fdab5f61/pair/BRL/USD/" + valorAConverter))
+                        .build();
+
+                HttpResponse<String> response = client
+                        .send(request, HttpResponse.BodyHandlers.ofString());
+
+                String json = response.body();
+                Gson gson = new Gson();
+
+                MoedasRecord moedasRecord = gson.fromJson(json, MoedasRecord.class);
+
+
+                Moeda moeda = new Moeda(moedasRecord);
+                moeda.setValorAconverter(Double.parseDouble(valorAConverter));
+
+                System.out.println(moeda);
 
             } else if (escolha == 5) {
+                HttpClient client = HttpClient.newHttpClient();
+                HttpRequest request = HttpRequest.newBuilder()
+                        .uri(URI.create("https://v6.exchangerate-api.com/v6/96ed609c3944d773fdab5f61/pair/USD/COP/" + valorAConverter))
+                        .build();
+
+                HttpResponse<String> response = client
+                        .send(request, HttpResponse.BodyHandlers.ofString());
+
+                String json = response.body();
+                Gson gson = new Gson();
+
+                MoedasRecord moedasRecord = gson.fromJson(json, MoedasRecord.class);
+
+
+                Moeda moeda = new Moeda(moedasRecord);
+                moeda.setValorAconverter(Double.parseDouble(valorAConverter));
+
+                System.out.println(moeda);
+
 
             } else if (escolha == 6) {
+                HttpClient client = HttpClient.newHttpClient();
+                HttpRequest request = HttpRequest.newBuilder()
+                        .uri(URI.create("https://v6.exchangerate-api.com/v6/96ed609c3944d773fdab5f61/pair/COP/USD/" + valorAConverter))
+                        .build();
+
+                HttpResponse<String> response = client
+                        .send(request, HttpResponse.BodyHandlers.ofString());
+
+                String json = response.body();
+                Gson gson = new Gson();
+
+                MoedasRecord moedasRecord = gson.fromJson(json, MoedasRecord.class);
+
+
+                Moeda moeda = new Moeda(moedasRecord);
+                moeda.setValorAconverter(Double.parseDouble(valorAConverter));
+
+                System.out.println(moeda);
+
 
             }
 
         }
         
-        System.out.println("thcau");
+        System.out.println("Conversor encerrado.");
     }
 }
